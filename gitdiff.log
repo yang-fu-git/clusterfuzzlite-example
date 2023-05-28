@@ -1,0 +1,72 @@
+diff --git a/my_api.cpp b/my_api.cpp
+index db04b9d..0f3ec82 100644
+--- a/my_api.cpp
++++ b/my_api.cpp
+@@ -5,6 +5,9 @@
+ #include "my_api.h"
+ 
+ #include <vector>
++#include <cstdio>
++#include <cstring>
++#include <string>
+ 
+ // Do some computations with 'str', return the result.
+ // This function contains a bug. Can you spot it?
+@@ -19,7 +22,26 @@ size_t DoStuff(const std::string &str) {
+     Idx++;
+   if (str.find("ouch") != std::string::npos)
+     Idx++;
+-  if (str.find("omg") != std::string::npos)
++  if (str.find("mg") != std::string::npos)
+     Idx++;
+   return Vec[Idx];
+ }
++
++using namespace std;
++
++// just a function with multiple paths that can be discoverd by a fuzzer
++void exploreMe(int a, int b, string c) {
++  if (a >= 20000) {
++    if (b >= 2000000) {
++      if (b - a < 100000) {
++        if (c == "FUZZING") {
++          // Trigger a heap buffer overflow
++          char *s = (char *)malloc(9);
++          strcpy(s, "too long");
++          printf("%s\n", s);
++          // free(s);
++        }
++      }
++    }
++  }
++}
+diff --git a/my_api.h b/my_api.h
+index 09cba87..755178f 100644
+--- a/my_api.h
++++ b/my_api.h
+@@ -6,3 +6,4 @@
+ #include <string>
+ 
+ size_t DoStuff(const std::string &str);
++void exploreMe(int, int, std::string);
+\ No newline at end of file
+diff --git a/my_fuzz_test.cpp b/my_fuzz_test.cpp
+new file mode 100644
+index 0000000..f7b9127
+--- /dev/null
++++ b/my_fuzz_test.cpp
+@@ -0,0 +1,13 @@
++#include "my_api.h"
++#include <fuzzer/FuzzedDataProvider.h>
++
++
++extern "C" void ExploreMeFuzzTest(const uint8_t *data, size_t size) {
++
++  FuzzedDataProvider fuzzed_data(data, size);
++  int a = fuzzed_data.ConsumeIntegral<int>();
++  int b = fuzzed_data.ConsumeIntegral<int>();
++  std::string c = fuzzed_data.ConsumeRandomLengthString();
++
++  exploreMe(a, b, c);
++}
+\ No newline at end of file
