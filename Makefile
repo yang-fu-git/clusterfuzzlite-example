@@ -24,7 +24,7 @@ LIB_FUZZING_ENGINE ?= standalone_fuzz_target_runner.o
 # You may add extra compiler flags like this:
 CXXFLAGS += -std=c++11
 
-all: do_stuff_unittest do_stuff_fuzzer example_fuzzer
+all: do_stuff_unittest do_stuff_fuzzer example_fuzzer new_feature_fuzzer
 
 clean:
 	rm -fv *.a *.o *unittest *_fuzzer *_seed_corpus.zip crash-* *.zip
@@ -49,6 +49,10 @@ do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
 	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
+
+new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
+	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} new_feature_fuzzer.cpp my_api.a -o new_feature_fuzzer
+	zip -q -r new_feature_fuzzer_corpus.zip do_stuff_test_data
 
 # The library itself.
 my_api.a: my_api.cpp my_api.h
