@@ -21,6 +21,3 @@ jobs:
         storage-repo: https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/yang-fu-git/clusterfuzzlite-example-storage.git
         storage-repo-branch-coverage: gh-pages
         
-https://github.com:yang-fu-git/clusterfuzzlite-example-storage.git
-https://github.com/yang-fu-git/clusterfuzzlite-example-storage
-https://github.com/yang-fu-git/clusterfuzzlite-example-storage.git
