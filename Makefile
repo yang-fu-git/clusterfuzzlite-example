@@ -50,6 +50,10 @@ example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
 	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
 
+do_another_stuff_fuzzer:  do_another_stuff_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
+	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} do_another_stuff_fuzzer.cpp my_api.a -o do_another_stuff_fuzzer
+	zip -q -r do_another_stuff_fuzzer_corpus.zip do_another_stuff_test_data
+
 # The library itself.
 my_api.a: my_api.cpp my_api.h
 	${CXX} ${CXXFLAGS} $< -c
