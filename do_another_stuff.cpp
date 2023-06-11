@@ -10,5 +10,5 @@
 // This function contains a bug. Can you spot it?
 size_t DoAnotherStuff(const std::string &str) {
   std::string augument_string = str+str;
-  DoStuff(augument_string);
+  return DoStuff(augument_string);
 }

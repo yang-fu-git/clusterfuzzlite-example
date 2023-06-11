@@ -60,8 +60,8 @@ do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_ta
 
 # The library itself.
 my_api.a: my_api.cpp do_another_stuff.cpp my_api.h
-	${CXX} ${CXXFLAGS} $< -c
-	ar ruv my_api.a my_api.o
+	${CXX} ${CXXFLAGS} $^ -c
+	ar ruv my_api.a  my_api.o do_another_stuff.o
 
 # The standalone fuzz target runner.
 standalone_fuzz_target_runner.o: standalone_fuzz_target_runner.cpp
