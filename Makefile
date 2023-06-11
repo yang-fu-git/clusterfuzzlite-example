@@ -24,7 +24,7 @@ LIB_FUZZING_ENGINE ?= standalone_fuzz_target_runner.o
 # You may add extra compiler flags like this:
 CXXFLAGS += -std=c++11
 
-all: do_stuff_unittest do_stuff_fuzzer example_fuzzer
+all: do_stuff_unittest do_stuff_fuzzer example_fuzzer do_another_stuff_fuzzer
 
 clean:
 	rm -fv *.a *.o *unittest *_fuzzer *_seed_corpus.zip crash-* *.zip
