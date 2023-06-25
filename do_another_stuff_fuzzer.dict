@@ -1,0 +1,7 @@
+# A dictionary for more efficient fuzzing of DoAnotherStuff(). 
+# If the inputs contain multi-byte tokens, list them here.
+# See http://libfuzzer.info#dictionaries
+"foo"
+"bar"
+"ouch"
+"omg"
