@@ -23,5 +23,4 @@ Imagine that these files reside in your project's repository:
   * [build.sh](../build.sh): builds the fuzz target(s). The smaller this file the better (most of the logic should be inside the project's build system).
   * [project.yaml](../project.yaml): short project description and contact info.
 
-## Example bug
-Example bug report filed automatically: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=1562
+
