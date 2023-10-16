@@ -50,11 +50,9 @@ example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
 	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
 
-<<<<<<< HEAD
 new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} new_feature_fuzzer.cpp my_api.a -o new_feature_fuzzer
 	zip -q -r new_feature_fuzzer_corpus.zip do_stuff_test_data
-=======
 # do_another_stuff_fuzzer:  do_another_stuff_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 # 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} do_another_stuff_fuzzer.cpp my_api.a -o do_another_stuff_fuzzer
 # 	zip -q -r do_another_stuff_fuzzer_corpus.zip do_stuff_test_data
@@ -62,7 +60,6 @@ new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_ap
 do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
 	zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
->>>>>>> main
 
 # The library itself.
 my_api.a: my_api.cpp do_another_stuff.cpp my_api.h
