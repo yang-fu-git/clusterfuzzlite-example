@@ -24,5 +24,5 @@ jobs:
         fuzz-seconds: 120
         mode: 'code-change'
         storage-repo: https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/yang-fu-git/clusterfuzzlite-example-storage.git
-        storage-repo-branch-coverage: gh-pages
+        storage-repo-branch-coverage: pr-coverage
         
