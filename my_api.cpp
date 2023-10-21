@@ -19,9 +19,7 @@ size_t DoStuff(const std::string &str) {
     Idx++;
   if (str.find("ouch") != std::string::npos)
     Idx++;
-  if (str.find("om") != std::string::npos)
-    Idx++;
-  if (str.find("on") != std::string::npos)
+  if (str.find("omg") != std::string::npos)
     Idx++;
   return Vec[Idx];
 }
