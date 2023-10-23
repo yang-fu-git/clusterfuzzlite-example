@@ -9,6 +9,6 @@
 // Do some computations with 'str', return the result.
 // This function contains a bug. Can you spot it?
 size_t DoAnotherStuff(const std::string &str) {
-  std::string augument_string = str+str;
+  std::string augument_string = str+str+str;
   return DoStuff(augument_string);
 }
