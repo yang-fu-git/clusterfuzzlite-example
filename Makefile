@@ -43,13 +43,15 @@ do_stuff_unittest: do_stuff_unittest.cpp my_api.a
 # 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
 # 	zip -q -r do_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
 
+example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
+	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
+	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
+	
 do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
 	zip -q -r do_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
 
-example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
-	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
-	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
+
 
 # do_another_stuff_fuzzer:  do_another_stuff_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 # 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} do_another_stuff_fuzzer.cpp my_api.a -o do_another_stuff_fuzzer
