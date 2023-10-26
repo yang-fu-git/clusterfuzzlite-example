@@ -21,6 +21,8 @@ size_t DoStuff(const std::string &str) {
     Idx++;
   if (str.find("omg") != std::string::npos)
     Idx++;
+  if (str.find("on") != std::string::npos)
+    Idx++;
   // This is the bug fix: the index can be out of bounds.
   if (Idx >= 5)
     {
