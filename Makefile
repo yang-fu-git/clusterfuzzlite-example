@@ -34,6 +34,8 @@ clean:
 check: all
 	./do_stuff_unittest
 	./do_stuff_fuzzer do_stuff_test_data/*
+#	./example_fuzzer do_stuff_test_data/*
+#	./do_another_stuff_fuzzer do_another_stuff_test_data/*
 
 # Unit tests
 do_stuff_unittest: do_stuff_unittest.cpp my_api.a
@@ -59,7 +61,7 @@ do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 
 do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
-	zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_another_stuff_test_data
+	zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
 
 # The library itself.
 my_api.a: my_api.cpp do_another_stuff.cpp my_api.h
