@@ -15,6 +15,7 @@
 #
 # OSS-Fuzz will define its own value for LIB_FUZZING_ENGINE.
 LIB_FUZZING_ENGINE ?= standalone_fuzz_target_runner.o
+$(info $$LIB_FUZZING_ENGINE is [${LIB_FUZZING_ENGINE}])
 
 # Values for CC, CFLAGS, CXX, CXXFLAGS are provided by OSS-Fuzz.
 # Outside of OSS-Fuzz use the ones you prefer or rely on the default values.
@@ -33,6 +34,8 @@ clean:
 check: all
 	./do_stuff_unittest
 	./do_stuff_fuzzer do_stuff_test_data/*
+#	./example_fuzzer do_stuff_test_data/*
+#	./do_another_stuff_fuzzer do_another_stuff_test_data/*
 
 # Unit tests
 do_stuff_unittest: do_stuff_unittest.cpp my_api.a
@@ -42,10 +45,13 @@ do_stuff_unittest: do_stuff_unittest.cpp my_api.a
 # 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
 # 	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
 
+example_fuzzer: example_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
+	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} example_fuzzer.cpp my_api.a -o example_fuzzer
+	zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
+	
 do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
 	zip -q -r do_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
-
 
 new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} new_feature_fuzzer.cpp my_api.a -o new_feature_fuzzer

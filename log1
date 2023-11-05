@@ -1,0 +1,57 @@
+python infra/helper.py build_fuzzers --external $PATH_TO_PROJECT --sanitizer address
+INFO:__main__:Running: docker build -t gcr.io/oss-fuzz/clusterfuzzlite-example --file /media/shared_file_system/Learning_Materials/SS23/thesis/clusterfuzzlite-example/.clusterfuzzlite/Dockerfile /media/shared_file_system/Learning_Materials/SS23/thesis/clusterfuzzlite-example.
+[+] Building 0.3s (9/9) FINISHED                                                                                             docker:default
+ => [internal] load build definition from Dockerfile                                                                                   0.0s
+ => => transferring dockerfile: 843B                                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [internal] load metadata for gcr.io/oss-fuzz-base/base-builder:latest                                                              0.0s
+ => CACHED [1/4] FROM gcr.io/oss-fuzz-base/base-builder                                                                                0.0s
+ => [internal] load build context                                                                                                      0.0s
+ => => transferring context: 31.56kB                                                                                                   0.0s
+ => [2/4] COPY . /src/clusterfuzzlite-example                                                                                          0.1s
+ => [3/4] WORKDIR clusterfuzzlite-example                                                                                              0.1s
+ => [4/4] COPY .clusterfuzzlite/build.sh /src/                                                                                         0.0s
+ => exporting to image                                                                                                                 0.1s
+ => => exporting layers                                                                                                                0.1s
+ => => writing image sha256:9931d42d9cc2b65f149b95164960af88425ad85d97d91033ae26d9b1dd28bc68                                           0.0s
+ => => naming to gcr.io/oss-fuzz/clusterfuzzlite-example                                                                               0.0s
+INFO:__main__:Keeping existing build artifacts as-is (if any).
+WARNING:__main__:No project.yaml. Assuming c++.
+WARNING:__main__:No project.yaml. Assuming c++.
+INFO:__main__:Running: docker run --rm --privileged --shm-size=2g --platform linux/amd64 -i -e FUZZING_ENGINE=libfuzzer -e SANITIZER=address -e ARCHITECTURE=x86_64 -e PROJECT_NAME=clusterfuzzlite-example -e HELPER=True -e FUZZING_LANGUAGE=c++ -v /media/shared_file_system/Learning_Materials/SS23/thesis/oss-fuzz/build/out/clusterfuzzlite-example/:/out -v /media/shared_file_system/Learning_Materials/SS23/thesis/oss-fuzz/build/work/clusterfuzzlite-example:/work -t gcr.io/oss-fuzz/clusterfuzzlite-example.
+---------------------------------------------------------------
+Compiling libFuzzer to /usr/lib/libFuzzingEngine.a...  done.
+---------------------------------------------------------------
+CC=clang
+CXX=clang++
+CFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link
+CXXFLAGS=-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++
+RUSTFLAGS=--cfg fuzzing -Zsanitizer=address -Cdebuginfo=1 -Cforce-frame-pointers
+---------------------------------------------------------------
+++ nproc
++ make -j16 all
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 my_api.cpp do_another_stuff.cpp my_api.h -c
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11   -c -o standalone_fuzz_target_runner.o standalone_fuzz_target_runner.cpp
+clang-15: warning: treating 'c-header' input as 'c++-header' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+ar ruv my_api.a my_api.o do_another_stuff.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+ar: creating my_api.a
+a - my_api.o
+a - do_another_stuff.o
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 do_stuff_unittest.cpp my_api.a -o do_stuff_unittest
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 do_stuff_fuzzer.cpp my_api.a -fsanitize=fuzzer -o do_stuff_fuzzer
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 -fsanitize=fuzzer example_fuzzer.cpp my_api.a -o example_fuzzer
+clang++ -O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -std=c++11 do_another_stuff_fuzzer.cpp my_api.a -fsanitize=fuzzer -o do_another_stuff_fuzzer
+zip -q -r example_fuzzer_corpus.zip do_stuff_test_data
+zip -q -r do_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
+zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
++ find . -name '*_fuzzer' -exec cp -v '{}' /out ';'
+'./build/do_stuff_fuzzer' -> '/out/do_stuff_fuzzer'
+'./example_fuzzer' -> '/out/example_fuzzer'
+'./do_stuff_fuzzer' -> '/out/do_stuff_fuzzer'
+'./do_another_stuff_fuzzer' -> '/out/do_another_stuff_fuzzer'
++ find . -name '*_fuzzer.dict' -exec cp -v '{}' /out ';'
+'./do_another_stuff_fuzzer.dict' -> '/out/do_another_stuff_fuzzer.dict'
+'./do_stuff_fuzzer.dict' -> '/out/do_stuff_fuzzer.dict'
++ find . -name '*_fuzzer.options' -exec cp -v '{}' /out ';'
