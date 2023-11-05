@@ -7,3 +7,4 @@
 
 size_t DoStuff(const std::string &str);
 size_t DoAnotherStuff(const std::string &str);
+void exploreMe(int, int, std::string);
