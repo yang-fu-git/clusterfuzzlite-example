@@ -35,6 +35,8 @@ size_t DoStuff(const std::string &str) {
   return Vec[Idx];
 }
 
+using namespace std;
+
 void exploreMe(int a, int b, string c) {
   if (a >= 20000) {
     if (b >= 2000000) {
