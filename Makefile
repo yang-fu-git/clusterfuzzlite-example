@@ -25,7 +25,7 @@ $(info $$LIB_FUZZING_ENGINE is [${LIB_FUZZING_ENGINE}])
 # You may add extra compiler flags like this:
 CXXFLAGS += -std=c++11
 
-all: do_stuff_unittest do_stuff_fuzzer example_fuzzer do_another_stuff_fuzzer new_feature_fuzzer 
+all: do_stuff_unittest do_stuff_fuzzer example_fuzzer do_another_stuff_fuzzer explore_me_fuzzer 
 
 clean:
 	rm -fv *.a *.o *unittest *_fuzzer *_seed_corpus.zip crash-* *.zip
@@ -63,9 +63,9 @@ do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_ta
 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
 	zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
 
-new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
-	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} new_feature_fuzzer.cpp my_api.a -o new_feature_fuzzer
-	zip -q -r new_feature_fuzzer_corpus.zip do_stuff_test_data
+explore_me_fuzzer: explore_me_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
+	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} explore_me_fuzzer.cpp my_api.a -o explore_me_fuzzer
+	zip -q -r explore_me_fuzzer_corpus.zip do_stuff_test_data
 
 # The library itself.
 my_api.a: my_api.cpp do_another_stuff.cpp my_api.h
