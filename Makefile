@@ -50,9 +50,6 @@ do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 new_feature_fuzzer: new_feature_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} new_feature_fuzzer.cpp my_api.a -o new_feature_fuzzer
 	zip -q -r new_feature_fuzzer_corpus.zip do_stuff_test_data
-# do_another_stuff_fuzzer:  do_another_stuff_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
-# 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} do_another_stuff_fuzzer.cpp my_api.a -o do_another_stuff_fuzzer
-# 	zip -q -r do_another_stuff_fuzzer_corpus.zip do_stuff_test_data
 
 # do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 # 	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
