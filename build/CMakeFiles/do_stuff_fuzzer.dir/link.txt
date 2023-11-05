@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/do_stuff_fuzzer.dir/do_stuff_fuzzer.cpp.o CMakeFiles/standalone_fuzz_target_runner.dir/standalone_fuzz_target_runner.cpp.o -o do_stuff_fuzzer  libmy_api.a 

@@ -24,6 +24,14 @@ size_t DoStuff(const std::string &str) {
     Idx++;
   if (str.find("mg") != std::string::npos)
     Idx++;
+  if (str.find("on") != std::string::npos)
+    Idx++;
+  // This is the bug fix: the index can be out of bounds.
+  if (Idx >= 5)
+    {
+      printf("Idx too large\n");
+      return 0;
+    }
   return Vec[Idx];
 }
 
