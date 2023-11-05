@@ -5,6 +5,9 @@
 #include "my_api.h"
 
 #include <vector>
+#include <cstdio>
+#include <cstring>
+#include <string>
 
 // Do some computations with 'str', return the result.
 // This function contains a bug. Can you spot it?
@@ -30,4 +33,23 @@ size_t DoStuff(const std::string &str) {
       return 0;
     }
   return Vec[Idx];
+}
+
+using namespace std;
+
+// just a function with multiple paths that can be discoverd by a fuzzer
+void exploreMe(int a, int b, string c) {
+  if (a >= 20000) {
+    if (b >= 2000000) {
+      if (b - a < 100000) {
+        if (c == "FUZZING") {
+          // Trigger a heap buffer overflow
+          char *s = (char *)malloc(8);
+          strcpy(s, "too long");
+          printf("%s\n", s);
+          // free(s);
+        }
+      }
+    }
+  }
 }
