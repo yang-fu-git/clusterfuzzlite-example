@@ -25,7 +25,7 @@ $(info $$LIB_FUZZING_ENGINE is [${LIB_FUZZING_ENGINE}])
 # You may add extra compiler flags like this:
 CXXFLAGS += -std=c++11
 
-all: do_stuff_unittest do_stuff_fuzzer do_another_stuff_fuzzer
+all: do_stuff_unittest do_stuff_fuzzer 
 
 clean:
 	rm -fv *.a *.o *unittest *_fuzzer *_seed_corpus.zip crash-* *.zip
@@ -34,12 +34,10 @@ clean:
 check: all
 	./do_stuff_unittest
 	./do_stuff_fuzzer do_stuff_test_data/*
-#	./do_another_stuff_fuzzer do_another_stuff_test_data/*
 
 # Unit tests
 do_stuff_unittest: do_stuff_unittest.cpp my_api.a
 	${CXX} ${CXXFLAGS} $< my_api.a -o $@
-
 
 	
 do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
@@ -47,19 +45,10 @@ do_stuff_fuzzer: do_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
 	zip -q -r do_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
 
 
-
-# do_another_stuff_fuzzer:  do_another_stuff_fuzzer.cpp standalone_fuzz_target_runner.o my_api.a
-# 	${CXX} ${CXXFLAGS} ${LIB_FUZZING_ENGINE} do_another_stuff_fuzzer.cpp my_api.a -o do_another_stuff_fuzzer
-# 	zip -q -r do_another_stuff_fuzzer_corpus.zip do_stuff_test_data
-
-do_another_stuff_fuzzer: do_another_stuff_fuzzer.cpp my_api.a standalone_fuzz_target_runner.o
-	${CXX} ${CXXFLAGS} $< my_api.a ${LIB_FUZZING_ENGINE} -o $@
-	zip -q -r do_another_stuff_fuzzer_seed_corpus.zip do_stuff_test_data
-
 # The library itself.
-my_api.a: my_api.cpp do_another_stuff.cpp my_api.h
+my_api.a: my_api.cpp my_api.h
 	${CXX} ${CXXFLAGS} $^ -c
-	ar ruv my_api.a my_api.o do_another_stuff.o
+	ar ruv my_api.a my_api.o 
 
 # The standalone fuzz target runner.
 standalone_fuzz_target_runner.o: standalone_fuzz_target_runner.cpp
